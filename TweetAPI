@@ -1,0 +1,28 @@
+# tutorials used:
+# https://www.dataquest.io/blog/python-api-tutorial/
+# https://www.datacamp.com/community/tutorials/mysql-python#ID
+
+import mysql.connector as mysql
+import requests
+
+
+db = mysql.connect(host='localhost', database="TweetApp", user='dalyya', passwd='242413', auth_plugin='mysql_native_password')
+if db.is_connected():
+        db_Info = db.get_server_info()
+        print("Connected to MySQL Server version ", db_Info)
+        cursor = db.cursor()
+        cursor.execute("select database();")
+        record = cursor.fetchone()
+        print("You're connected to database: ", record)
+
+def insertTweet(tweet):
+
+    cursor = db.cursor()
+    query = """INSERT INTO Tweets (tweet) VALUES (%s) """
+    cursor.execute(query, (tweet,))
+    db.commit()
+    print(cursor.rowcount, "record inserted")
+
+
+
+insertTweet("second try")
